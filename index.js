@@ -8,6 +8,10 @@ const config = {
   appId: "1:93253330064:web:831e1df57b957e39"
 };
 
+if( window.location === "index2.html" && localStorage.getItem("password") ){
+  window.location = "index2.html"
+}
+
 firebase.initializeApp(config);
 let database = firebase.database();
 const userListUI = document.getElementById("userList");
@@ -25,14 +29,13 @@ database.ref().child('users').once("value").then(function (snap) {
 })
 
 function load() {
-
   let login = document.getElementById("login").value.toLowerCase();
   let password = document.getElementById("password").value.toLowerCase();
   database.ref().child('users/' + login).on("value", snap => {
     authDataReg.password = snap.val().password
   })
   if (login) {
-    database.ref().child('users').on("child_added", snap => {
+      database.ref().child('users').on("child_added", snap => {
       users.add(snap.val().login)
     })
   }
@@ -41,6 +44,7 @@ function load() {
       password: password,
       login: login
     });
+    localStorage.setItem("password", password)
     errorList.innerHTML = "Регистрация прошла успешно, выполняется вход"
     setTimeout(()=>{
     window.location = "index2.html"
@@ -61,7 +65,9 @@ function signIn() {
   database.ref().child('users/' + login).on("value", snap => {
     authData.password = snap.val().password
   })
+
   setTimeout(() => {
+    localStorage.setItem("password", authData.password)
     if (authData.password === password) {
       window.location = "index2.html"
     }
@@ -96,12 +102,12 @@ function showList() {
 
 function logOut() {
   window.location = "index.html"
+  localStorage.removeItem("password")
 }
 
 function changeType()
 {
   let input = document.getElementById("password").type
-  console.log(input)
   if (input === "password")
   {
     document.getElementById("password").type = "text"
