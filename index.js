@@ -49,7 +49,7 @@ function load() {
       password: password,
       login: login
     });
-    errorList.innerHTML = "Регистрация прошла успешно, войдите, используя ваши учетные данные"
+    errorList.innerHTML = "Регистрация прошла успешно, входим..."
   }
   else if (login === "" || password === "") {
     errorList.innerHTML = "Пожалуйста, заполните поля"
@@ -57,7 +57,7 @@ function load() {
   else {
     (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
   }
-})
+}, 1000)
 }
 
 function signIn() {
