@@ -54,7 +54,7 @@ function signIn() {
   })
   setTimeout(() => {
     if (authData.password === password) {
-      window.location = "file:///C:/Users/Rongaloff/Documents/JS-course/GS/main2.html#"
+      window.location = "main2.html#"
     }
     else {
       errorList.innerHTML = "Проверьте написание введенных данных"
@@ -86,5 +86,5 @@ function showList() {
 }
 
 function logOut() {
-  window.location = "file:///C:/Users/Rongaloff/Documents/JS-course/GS/main.html#"
+  window.location = "/main.html#"
 }
