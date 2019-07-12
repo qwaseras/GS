@@ -25,40 +25,37 @@ database.ref().child('users').once("value").then(function (snap) {
 })
 
 function load() {
+  
   let login = document.getElementById("login").value.toLowerCase();
   let password = document.getElementById("password").value.toLowerCase();
   database.ref().child('users/' + login).on("value", snap => {
-    authData.password = snap.val().password
+    authDataReg.password = snap.val().password
   })
   setTimeout(() => {
-    if (authData.password === password) {
+    if (authDataReg.password === password) {
       window.location = "index2.html"
     }
-    else {
-      errorList.innerHTML = "Проверьте написание введенных данных"
+  }, 500)
+    if (login) {
+      database.ref().child('users').on("child_added", snap => {
+        users.add(snap.val().login)
+      })
     }
-  }, 300)
-  setTimeout(() => {
-  if (login) {
-    database.ref().child('users').on("child_added", snap => {
-      users.add(snap.val().login)
-    })
+    if (login != "" && password != "" && !users.has(login)) {
+      database.ref('users/' + login.toLowerCase()).set({
+        password: password,
+        login: login
+      });
+      errorList.innerHTML = "Регистрация прошла успешно"
+    }
+    else if (login === "" || password === "") {
+      errorList.innerHTML = "Пожалуйста, заполните поля"
+    }
+    else {
+      (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
+    }
   }
-  if (login != "" && password != "" && !users.has(login)) {
-    database.ref('users/' + login.toLowerCase()).set({
-      password: password,
-      login: login
-    });
-    errorList.innerHTML = "Регистрация прошла успешно, входим..."
-  }
-  else if (login === "" || password === "") {
-    errorList.innerHTML = "Пожалуйста, заполните поля"
-  }
-  else {
-    (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
-  }
-}, 1000)
-}
+
 
 function signIn() {
   let login = document.getElementById("login").value.toLowerCase();
@@ -79,7 +76,7 @@ function signIn() {
 
 function showList() {
   if (document.querySelector("ul").lastElementChild) {
-    ()=>{
+    () => {
       let ul = document.querySelector("ul");
       var child = ul.lastElementChild;
       while (child) {
