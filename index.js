@@ -14,6 +14,7 @@ const userListUI = document.getElementById("userList");
 const errorList = document.getElementById("errorLog");
 const users = new Set([]);
 const authData = {};
+const authDataReg = {};
 
 database.ref().child('users').once("value").then(function (snap) {
   snap.forEach(function (snapshot) {
@@ -26,6 +27,18 @@ database.ref().child('users').once("value").then(function (snap) {
 function load() {
   let login = document.getElementById("login").value.toLowerCase();
   let password = document.getElementById("password").value.toLowerCase();
+  database.ref().child('users/' + login).on("value", snap => {
+    authData.password = snap.val().password
+  })
+  setTimeout(() => {
+    if (authData.password === password) {
+      window.location = "index2.html"
+    }
+    else {
+      errorList.innerHTML = "Проверьте написание введенных данных"
+    }
+  }, 300)
+  setTimeout(() => {
   if (login) {
     database.ref().child('users').on("child_added", snap => {
       users.add(snap.val().login)
@@ -36,7 +49,7 @@ function load() {
       password: password,
       login: login
     });
-    errorList.innerHTML = "Регистрация прошла успешно, авторизуйтесь, используя ваши учетные данные"
+    errorList.innerHTML = "Регистрация прошла успешно, войдите, используя ваши учетные данные"
   }
   else if (login === "" || password === "") {
     errorList.innerHTML = "Пожалуйста, заполните поля"
@@ -44,6 +57,7 @@ function load() {
   else {
     (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
   }
+})
 }
 
 function signIn() {
