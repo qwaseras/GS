@@ -54,7 +54,7 @@ function signIn() {
   })
   setTimeout(() => {
     if (authData.password === password) {
-      window.location = "/index2.html#"
+      window.location = "index2.html"
     }
     else {
       errorList.innerHTML = "Проверьте написание введенных данных"
@@ -86,5 +86,5 @@ function showList() {
 }
 
 function logOut() {
-  window.location = "/index.html#"
+  window.location = "index.html"
 }
