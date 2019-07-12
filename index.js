@@ -25,36 +25,34 @@ database.ref().child('users').once("value").then(function (snap) {
 })
 
 function load() {
-  
+
   let login = document.getElementById("login").value.toLowerCase();
   let password = document.getElementById("password").value.toLowerCase();
   database.ref().child('users/' + login).on("value", snap => {
     authDataReg.password = snap.val().password
   })
-  setTimeout(() => {
-    if (authDataReg.password === password) {
-      window.location = "index2.html"
-    }
-  }, 500)
-    if (login) {
-      database.ref().child('users').on("child_added", snap => {
-        users.add(snap.val().login)
-      })
-    }
-    if (login != "" && password != "" && !users.has(login)) {
-      database.ref('users/' + login.toLowerCase()).set({
-        password: password,
-        login: login
-      });
-      errorList.innerHTML = "Регистрация прошла успешно"
-    }
-    else if (login === "" || password === "") {
-      errorList.innerHTML = "Пожалуйста, заполните поля"
-    }
-    else {
-      (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
-    }
+  if (login) {
+    database.ref().child('users').on("child_added", snap => {
+      users.add(snap.val().login)
+    })
   }
+  if (login != "" && password != "" && !users.has(login)) {
+    database.ref('users/' + login.toLowerCase()).set({
+      password: password,
+      login: login
+    });
+    errorList.innerHTML = "Регистрация прошла успешно, выполняется вход"
+    setTimeout(()=>{
+    window.location = "index2.html"
+  },500)
+}
+  else if (login === "" || password === "") {
+    errorList.innerHTML = "Пожалуйста, заполните поля"
+  }
+  else {
+    (errorList.innerHTML != "") ? errorList.innerHTML = "" : errorList.innerHTML = "Пользователь с таким логином уже существует"
+  }
+}
 
 
 function signIn() {
@@ -98,4 +96,17 @@ function showList() {
 
 function logOut() {
   window.location = "index.html"
+}
+
+function changeType()
+{
+  let input = document.getElementById("password").type
+  console.log(input)
+  if (input === "password")
+  {
+    document.getElementById("password").type = "text"
+  }
+  else if (input === "text"){
+    document.getElementById("password").type = "password"
+  }
 }

@@ -13,7 +13,8 @@
 <body>
     <form action="#" class="form">
         <input type="text" id="login" placeholder="Логин"  required="required"/>
-        <input type="text" id="password" placeholder="Пароль" required="required"/>
+        <input type="password" id="password" placeholder="Пароль" required="required"/>
+        <button onclick="changeType()">Показать/скрыть пароль</buttom>
         <button onclick="load()">Отправить</button>
         <button onclick="signIn()">Войти</button>
         <div id="errorLog"></div>
