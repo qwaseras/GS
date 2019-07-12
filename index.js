@@ -8,7 +8,7 @@ const config = {
   appId: "1:93253330064:web:831e1df57b957e39"
 };
 
-if( window.location === "index2.html" && localStorage.getItem("password") ){
+if( window.location === "index2.html" && localStorage.getItem("login") ){
   window.location = "index2.html"
 }
 
@@ -40,11 +40,11 @@ function load() {
     })
   }
   if (login != "" && password != "" && !users.has(login)) {
-    database.ref('users/' + login.toLowerCase()).set({
+    localStorage.setItem("login", login)
+   database.ref('users/' + login.toLowerCase()).set({
       password: password,
       login: login
     });
-    localStorage.setItem("password", password)
     errorList.innerHTML = "Регистрация прошла успешно, выполняется вход"
     setTimeout(()=>{
     window.location = "index2.html"
@@ -64,11 +64,12 @@ function signIn() {
   let password = document.getElementById("password").value.toLowerCase();
   database.ref().child('users/' + login).on("value", snap => {
     authData.password = snap.val().password
+    authData.login = snap.val().login
   })
 
   setTimeout(() => {
-    localStorage.setItem("password", authData.password)
     if (authData.password === password) {
+      localStorage.setItem("login", authData.login)
       window.location = "index2.html"
     }
     else {
@@ -102,7 +103,7 @@ function showList() {
 
 function logOut() {
   window.location = "index.html"
-  localStorage.removeItem("password")
+  localStorage.removeItem("login")
 }
 
 function changeType()

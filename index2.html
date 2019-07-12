@@ -7,16 +7,14 @@
     <title>Таблица пользователей</title>
 </head>
 <body>
+    <script type="text/javascript">
+        if(!localStorage.getItem("login")){
+        window.location = "index.html"
+    }
+    </script>
     <button id="showList" onclick="showList()">Отобразить список пользователей</button>
     <button id="logout" onclick="logOut()">Выйти</button>
     <ul id="userList"></ul>
-    <script type="text/javascript">
-    console.log(localStorage.getItem("password"))
-    if(!localStorage.getItem("password")){
-        window.location = "index.html"
-    }
-
-    </script>
     <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
     <script src="index.js"></script>

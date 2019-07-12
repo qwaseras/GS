@@ -12,8 +12,8 @@
 
 <body>
     <form action="#" class="form">
-        <input type="text" id="login" placeholder="Логин"  required="required"/>
-        <input type="password" id="password" placeholder="Пароль" required="required"/>
+        <input type="text" id="login" placeholder="Логин"  required="required" pattern="^[a-zA-Z0-9_ ]*$"/>
+        <input type="password" id="password" placeholder="Пароль" required="required" pattern="^[a-zA-Z0-9_]*$"/>
         <button onclick="changeType()">Показать/скрыть пароль</buttom>
         <button onclick="load()">Отправить</button>
         <button onclick="signIn()">Войти</button>
